@@ -51,11 +51,7 @@ def deseq2_normalize(data:pd.DataFrame)->pd.DataFrame:
         data: the normalized data.
 
     """
-    avg1=data.apply(np.log,axis=1).mean(axis=1).replace([np.inf,-np.inf],np.nan).dropna()
-    data1=data.loc[avg1.index]
-    data_log=data1.apply(np.log,axis=1)
-    scale=data_log.sub(avg1.values,axis=0).median(axis=0).apply(np.exp)
-    return data/scale
+    return data/estimateSizeFactors(data)
 
 def estimateSizeFactors(data:pd.DataFrame)->pd.Series:
     """
